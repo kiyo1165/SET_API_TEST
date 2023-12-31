@@ -1,0 +1,14 @@
+from django.urls import path, include
+from django.conf.urls.static import static
+from . import settings
+from rest_framework.authtoken import views
+from django.contrib import admin
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('authen/', views.obtain_auth_token),
+    path('api/user/', include('api_user.urls')),
+]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
