@@ -3,6 +3,11 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.conf import settings
 
 
+def upload_path(instance, filename):
+    ext = filename.split('.')[-1]
+    return '/'.join(['image', str(instance.user.id) + str(instance.nickname) + str(".") + str(ext)])
+
+
 # Create your models here.
 
 class UserManager(BaseUserManager):
@@ -46,3 +51,8 @@ class Profile(models.Model):
     nickname = models.CharField(max_length=20)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='user', on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
+
+    img = models.ImageField(blank=True, null=True, upload_to=upload_path)
+
+    def __str__(self):
+        return self.nickname
