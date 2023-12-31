@@ -51,8 +51,26 @@ class Profile(models.Model):
     nickname = models.CharField(max_length=20)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='user', on_delete=models.CASCADE)
     created_on = models.DateTimeField(auto_now_add=True)
+    friends = models.ManyToManyField(
+        settings.AUTH_USER_MODEL, related_name='friends',
+    )
 
     img = models.ImageField(blank=True, null=True, upload_to=upload_path)
 
     def __str__(self):
         return self.nickname
+
+
+class Message(models.Model):
+    message = models.CharField(max_length=200)
+    sender = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name='sender',
+        on_delete=models.CASCADE
+    )
+    receiver = models.ForeignKey(
+        settings.AUTH_USER_MODEL, related_name='receiver',
+        on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return self.message
