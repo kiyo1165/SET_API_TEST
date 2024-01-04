@@ -8,4 +8,4 @@ class ProfilePermission(permissions.BasePermission):
         # SAFE_METHODS:GET以外のリクエストを許可しない。
         if request.method in permissions.SAFE_METHODS:
             return True
-        return obj.user.id == request.user.id
+        return obj.userpro.id == request.user.id
